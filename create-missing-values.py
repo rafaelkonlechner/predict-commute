@@ -5,6 +5,8 @@ import sys
 import random
 import argparse
 import logging
+import arff
+import codecs
 
 logger = None
 
@@ -12,6 +14,8 @@ filename = None
 seed = None
 fraction = None
 attributes = None
+
+attributeIndices = None
 
 def main():
 
@@ -22,15 +26,56 @@ def main():
     global fraction
     global attributes
 
+    global attributeIndices
+
     init()
 
     logger.info("configuration... filename: %s, fraction: %s, attributes: %s, seed: %s" % (filename, fraction, attributes, seed))
+
+    file = codecs.open(filename, 'rb', 'utf-8')
+    arffFile = arff.load(file)
+
+    print("Loaded ARFF file... relation %s has %d attributes and %d data points" % (arffFile['relation'], len(arffFile['attributes']), len(arffFile['data'])))
+
+    # print("description: %s" % (arffFile['description']))
+    # print("relation: %s" % (arffFile['relation']))
+    # print("attributes: %s" % (arffFile['attributes']))
+
+    attributeIndices = {}
+
+    index = 0
+    for attrName, type in arffFile['attributes']:
+        attributeIndices[attrName] = index
+        index += 1
+
+    if attributes == None:
+        attributes = []
+        for attrName, type in arffFile['attributes']:
+            attributes.append(attrName)
+
+    logger.debug(attributeIndices)
+
+    introduce_missing_values()
+
+
+def introduce_missing_values():
+    print("introduce %d%% missing values in %d attributes..." % (fraction, len(attributes)))
+
+
+
+
+def index_of(attrName):
+    if attrName in attributeIndices:
+        return attributeIndices[attrName]
+    else:
+        raise RuntimeError("Attribute name %s unknown" % attrName)
+
 
 
 def init():
 
     global logger
-    logging.basicConfig(level=logging.INFO)
+    logging.basicConfig(level=logging.WARN)
     logger = logging.getLogger(__name__)
 
     global filename
