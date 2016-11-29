@@ -62,7 +62,7 @@ def main():
 
 def introduce_missing_values(arff_file):
     global logger
-    print("introduce %d%% missing values in %d attributes..." % (fraction, len(attributes)))
+    print("introduce %d%% missing values in %d attributes %s..." % (fraction, len(attributes), attributes))
 
     num = int((len(arff_file['data']) * fraction) / 100)
     logger.debug("fraction=%d -> %d of %d values affected per attribute" % (fraction, num, len(arff_file['data'])))
