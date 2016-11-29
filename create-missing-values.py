@@ -16,6 +16,20 @@ attributes = None
 def main():
 
     global logger
+
+    global filename
+    global seed
+    global fraction
+    global attributes
+
+    init()
+
+    logger.info("configuration... filename: %s, fraction: %s, attributes: %s, seed: %s" % (filename, fraction, attributes, seed))
+
+
+def init():
+
+    global logger
     logging.basicConfig(level=logging.INFO)
     logger = logging.getLogger(__name__)
 
@@ -55,7 +69,6 @@ def main():
 
     logger.debug("effective... filename: %s, fraction: %s, attributes: %s, seed: %s" % (filename, fraction, attributes, seed))
 
-# /main
 
 
 main()
