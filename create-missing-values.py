@@ -38,10 +38,6 @@ def main():
 
     print("Loaded ARFF file... relation %s has %d attributes and %d data points" % (arffFile['relation'], len(arffFile['attributes']), len(arffFile['data'])))
 
-    # print("description: %s" % (arffFile['description']))
-    # print("relation: %s" % (arffFile['relation']))
-    # print("attributes: %s" % (arffFile['attributes']))
-
     attributeIndices = {}
 
     index = 0
@@ -58,9 +54,10 @@ def main():
 
     changedARFF = introduce_missing_values(arffFile)
 
-    # print(arff.dumps(changedARFF))
     outfile = codecs.open(filename + ".missing.arff", 'wb', 'utf-8')
     arff.dump(changedARFF, outfile)
+
+    print("finished")
 
 
 def introduce_missing_values(arff_file):
