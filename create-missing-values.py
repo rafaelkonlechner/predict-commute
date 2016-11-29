@@ -17,6 +17,7 @@ attributes = None
 
 attributeIndices = None
 
+
 def main():
 
     global logger
@@ -55,11 +56,40 @@ def main():
 
     logger.debug(attributeIndices)
 
-    introduce_missing_values()
+    changedARFF = introduce_missing_values(arffFile)
+
+    # print(arff.dumps(changedARFF))
+    outfile = codecs.open(filename + ".missing.arff", 'wb', 'utf-8')
+    arff.dump(changedARFF, outfile)
 
 
-def introduce_missing_values():
+def introduce_missing_values(arff_file):
+    global logger
     print("introduce %d%% missing values in %d attributes..." % (fraction, len(attributes)))
+
+    num = int((len(arff_file['data']) * fraction) / 100)
+    logger.debug("fraction=%d -> %d of %d values affected per attribute" % (fraction, num, len(arff_file['data'])))
+
+    allIndices = range(0, len(arff_file['data']))
+    logger.debug("allIndices: %s" % allIndices)
+
+    changedARFF = arff_file.copy()
+
+    for attrName in attributes:
+        randomIndices = list(allIndices)
+        random.shuffle(randomIndices)
+        randomIndices = randomIndices[:num]
+        logger.debug("random indices: %s" % randomIndices)
+
+        attrIndex = index_of(attrName)
+
+        for dataRowIndex in randomIndices:
+            logger.debug("Changed attr %d in row %d to missing" % (attrIndex, dataRowIndex))
+            logger.debug("data points: %d" % len(changedARFF['data']))
+            logger.debug("data rows: %d" % len(changedARFF['data'][attrIndex]))
+            changedARFF['data'][dataRowIndex][attrIndex] = '?'
+
+    return changedARFF
 
 
 
@@ -100,6 +130,8 @@ def init():
 
     if args.fraction != None:
         fraction = args.fraction[0]
+        if fraction < 1 or fraction > 100:
+            raise RuntimeError("Fraction must be a value of 1..100")
 
     if args.attributes != None:
         attributes = args.attributes
