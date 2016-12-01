@@ -13,9 +13,11 @@ logger = None
 filename = None
 seed = None
 fraction = None
-attributes = None
+attributesAffected = None
 replaceMissingValuesWithClassMean = False
 
+allAttributes = None
+classAttribute = None
 attributeIndices = None
 
 
@@ -26,14 +28,16 @@ def main():
     global filename
     global seed
     global fraction
-    global attributes
+    global attributesAffected
     global replaceMissingValuesWithClassMean
 
     global attributeIndices
+    global classAttribute
+    global allAttributes
 
     init()
 
-    logger.info("configuration... filename: %s, fraction: %s, attributes: %s, seed: %s" % (filename, fraction, attributes, seed))
+    logger.info("configuration... filename: %s, fraction: %s, attributes: %s, seed: %s" % (filename, fraction, attributesAffected, seed))
 
     file = codecs.open(filename, 'rb', 'utf-8')
     arffFile = arff.load(file)
@@ -47,10 +51,20 @@ def main():
         attributeIndices[attrName] = index
         index += 1
 
-    if attributes == None:
-        attributes = []
+    if attributesAffected == None:
+        attributesAffected = []
         for attrName, type in arffFile['attributes']:
-            attributes.append(attrName)
+            attributesAffected.append(attrName)
+
+    allAttributes = []
+    for attrName, type in arffFile['attributes']:
+        allAttributes.append((attrName, type))
+    classAttribute = allAttributes[-1]
+
+    allAttributes.remove(classAttribute)
+
+    if classAttribute[0] in attributesAffected:
+        attributesAffected.remove(classAttribute[0])
 
     logger.debug(attributeIndices)
 
@@ -75,25 +89,27 @@ def main():
 
 def doReplaceMissingValuesWithClassMean(arff_file):
     global logger
+    global allAttributes
+    global classAttribute
 
     print("replace missing values with class mean...")
 
     result = arff_file.copy()
 
-    attributeDeclarations = arff_file['attributes']
+    # attributeDeclarations = arff_file['attributes']
 
-    classAttribute = attributeDeclarations[-1][0]
+    # classAttribute = allAttributes[-1]
 
-    logger.debug("class attribute is %s" % classAttribute)
+    logger.debug("class attribute is %s" % classAttribute[0])
 
-    classValues = attributeDeclarations[-1][1]
-    classValues.append(None)
+    classValues = classAttribute[1]
+    # classValues.append(None)
 
     logger.debug("class values: %s" % classValues)
 
     attrValueCount = {}
     attrValueSum = {}
-    for attrName, type in arff_file['attributes']:
+    for attrName, type in allAttributes:
         attrValueCount[attrName] = {}
         attrValueSum[attrName] = {}
         for classValue in classValues:
@@ -105,13 +121,13 @@ def doReplaceMissingValuesWithClassMean(arff_file):
                 for pval in type:
                     attrValueSum[attrName][classValue][pval] = 0
 
-    logger.debug("attr value count: %s" % attrValueCount)
-    logger.debug("attr value sum: %s" % attrValueSum)
+    # logger.debug("attr value count: %s" % attrValueCount)
+    # logger.debug("attr value sum: %s" % attrValueSum)
 
     for row in arff_file['data']:
         logger.debug("\n\nrow: %s" % row)
         rowClass = row[-1]
-        for attrName, type in arff_file['attributes']:
+        for attrName, type in allAttributes:
             attr_index = index_of(attrName)
             if row[attr_index] != None:
                 attrValueCount[attrName][rowClass] += 1
@@ -127,12 +143,15 @@ def doReplaceMissingValuesWithClassMean(arff_file):
                 logger.debug("NEW VALUE: %s" % attrValueSum[attrName][rowClass])
 
     classMeans = {}
-    for attrName, type in arff_file['attributes']:
+    for attrName, type in allAttributes:
         attr_index = index_of(attrName)
         classMeans[attrName] = {}
         for classValue in classValues:
             if type == "NUMERIC":
-                classMeans[attrName][classValue] = attrValueSum[attrName][classValue] / attrValueCount[attrName][classValue]
+                if attrValueCount[attrName][classValue] == 0:
+                    classMeans[attrName][classValue] = None
+                else:
+                    classMeans[attrName][classValue] = attrValueSum[attrName][classValue] / attrValueCount[attrName][classValue]
             else:
                 max = (None, -1)
                 logger.debug("attrValueSum[%s][%s]=%s" % (attrName, classValue, attrValueSum[attrName][classValue]))
@@ -143,18 +162,18 @@ def doReplaceMissingValuesWithClassMean(arff_file):
                 classMeans[attrName][classValue] = max[0]
 
     logger.info("class means: %s" % classMeans)
-    for attrName, type in arff_file['attributes']:
-        print("\n\nmeans of %s: %s" % (attrName, classMeans[attrName]))
+    for attrName, type in allAttributes:
+        logger.debug("\n\nmeans of %s: %s" % (attrName, classMeans[attrName]))
 
     for row in result['data']:
         logger.debug("\n\nrow: %s" % row)
         rowClass = row[-1]
-        for attrName, type in arff_file['attributes']:
+        for attrName, type in allAttributes:
             attr_index = index_of(attrName)
             if row[attr_index] == None:
                 row[attr_index] = classMeans[attrName][rowClass]
 
-    logger.debug("result: %s" % result)
+    # logger.info("result: %s" % result)
 
     return result
 
@@ -162,7 +181,7 @@ def doReplaceMissingValuesWithClassMean(arff_file):
 
 def introduce_missing_values(arff_file):
     global logger
-    print("introduce %d%% missing values in %d attributes %s..." % (fraction, len(attributes), attributes))
+    print("introduce %d%% missing values in %d attributes %s..." % (fraction, len(attributesAffected), attributesAffected))
 
     num = int((len(arff_file['data']) * fraction) / 100)
     logger.debug("fraction=%d -> %d of %d values affected per attribute" % (fraction, num, len(arff_file['data'])))
@@ -172,7 +191,7 @@ def introduce_missing_values(arff_file):
 
     changedARFF = arff_file.copy()
 
-    for attrName in attributes:
+    for attrName in attributesAffected:
         randomIndices = list(allIndices)
         random.shuffle(randomIndices)
         randomIndices = randomIndices[:num]
@@ -202,13 +221,13 @@ def index_of(attrName):
 def init():
 
     global logger
-    logging.basicConfig(level=logging.INFO)
+    logging.basicConfig(level=logging.WARN)
     logger = logging.getLogger(__name__)
 
     global filename
     global seed
     global fraction
-    global attributes
+    global attributesAffected
     global replaceMissingValuesWithClassMean
 
     parser = argparse.ArgumentParser(description='Update an ARFF file to change some values to missing ("?")')
@@ -234,7 +253,7 @@ def init():
             raise RuntimeError("Fraction must be a value of 0..100")
 
     if args.attributes != None:
-        attributes = args.attributes
+        attributesAffected = args.attributes
 
     replaceMissingValuesWithClassMean = args.replaceMissingValuesMeanClass != None \
                                         and args.replaceMissingValuesMeanClass[0] == True
@@ -247,7 +266,7 @@ def init():
     if fraction == None:
         fraction = random.randrange(1, 100, 1)
 
-    logger.debug("effective... filename: %s, fraction: %s, attributes: %s, seed: %s, replaceMissingValues: %s" % (filename, fraction, attributes, seed, replaceMissingValuesWithClassMean))
+    logger.debug("effective... filename: %s, fraction: %s, attributes: %s, seed: %s, replaceMissingValues: %s" % (filename, fraction, attributesAffected, seed, replaceMissingValuesWithClassMean))
 
 
 
