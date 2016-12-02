@@ -1,0 +1,76 @@
+@relation InstanceResultListener
+
+@attribute Key_Dataset {'census-chborn-weka.filters.unsupervised.attribute.Reorder-R1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,32'}
+@attribute Key_Run {1,2,3,4,5}
+@attribute Key_Scheme {weka.classifiers.functions.SMO}
+@attribute Key_Scheme_options {'-C 1.0 -L 0.001 -P 1.0E-12 -N 0 -V -1 -W 1 -K \"weka.classifiers.functions.supportVector.PolyKernel -E 1.0 -C 250007\" -calibrator \"weka.classifiers.functions.Logistic -R 1.0E-8 -M -1 -num-decimal-places 4\"'}
+@attribute Key_Scheme_version_ID {-6585883636378691736}
+@attribute Date_time numeric
+@attribute Number_of_training_instances numeric
+@attribute Number_of_testing_instances numeric
+@attribute Number_correct numeric
+@attribute Number_incorrect numeric
+@attribute Number_unclassified numeric
+@attribute Percent_correct numeric
+@attribute Percent_incorrect numeric
+@attribute Percent_unclassified numeric
+@attribute Kappa_statistic numeric
+@attribute Mean_absolute_error numeric
+@attribute Root_mean_squared_error numeric
+@attribute Relative_absolute_error numeric
+@attribute Root_relative_squared_error numeric
+@attribute SF_prior_entropy numeric
+@attribute SF_scheme_entropy numeric
+@attribute SF_entropy_gain numeric
+@attribute SF_mean_prior_entropy numeric
+@attribute SF_mean_scheme_entropy numeric
+@attribute SF_mean_entropy_gain numeric
+@attribute KB_information numeric
+@attribute KB_mean_information numeric
+@attribute KB_relative_information numeric
+@attribute True_positive_rate numeric
+@attribute Num_true_positives numeric
+@attribute False_positive_rate numeric
+@attribute Num_false_positives numeric
+@attribute True_negative_rate numeric
+@attribute Num_true_negatives numeric
+@attribute False_negative_rate numeric
+@attribute Num_false_negatives numeric
+@attribute IR_precision numeric
+@attribute IR_recall numeric
+@attribute F_measure numeric
+@attribute Matthews_correlation numeric
+@attribute Area_under_ROC numeric
+@attribute Area_under_PRC numeric
+@attribute Weighted_avg_true_positive_rate numeric
+@attribute Weighted_avg_false_positive_rate numeric
+@attribute Weighted_avg_true_negative_rate numeric
+@attribute Weighted_avg_false_negative_rate numeric
+@attribute Weighted_avg_IR_precision numeric
+@attribute Weighted_avg_IR_recall numeric
+@attribute Weighted_avg_F_measure numeric
+@attribute Weighted_avg_matthews_correlation numeric
+@attribute Weighted_avg_area_under_ROC numeric
+@attribute Weighted_avg_area_under_PRC numeric
+@attribute Unweighted_macro_avg_F_measure numeric
+@attribute Unweighted_micro_avg_F_measure numeric
+@attribute Elapsed_Time_training numeric
+@attribute Elapsed_Time_testing numeric
+@attribute UserCPU_Time_training numeric
+@attribute UserCPU_Time_testing numeric
+@attribute UserCPU_Time_millis_training numeric
+@attribute UserCPU_Time_millis_testing numeric
+@attribute Serialized_Model_Size numeric
+@attribute Serialized_Train_Set_Size numeric
+@attribute Serialized_Test_Set_Size numeric
+@attribute Coverage_of_Test_Cases_By_Regions numeric
+@attribute Size_of_Predicted_Regions numeric
+@attribute Summary string
+
+@data
+
+'census-chborn-weka.filters.unsupervised.attribute.Reorder-R1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,32',1,weka.classifiers.functions.SMO,'-C 1.0 -L 0.001 -P 1.0E-12 -N 0 -V -1 -W 1 -K \"weka.classifiers.functions.supportVector.PolyKernel -E 1.0 -C 250007\" -calibrator \"weka.classifiers.functions.Logistic -R 1.0E-8 -M -1 -num-decimal-places 4\"',-6585883636378691736,20161202.0924,4864,2621,2337,284,0,89.164441,10.835559,0,0.825766,0.226656,0.316805,107.493562,97.564199,4549.190826,5432.245843,-883.055017,1.73567,2.072585,-0.336915,494.580588,0.188699,28509.930985,1,1017,0,0,1,1604,0,0,1,1,1,1,1,1,0.891644,0.04365,0.95635,0.108356,0.875914,0.891644,0.881614,0.84899,0.944579,0.846703,0.562503,0.891644,11.681,0.064,11.23438,0.058297,11234.38,58.297,162040,2541129,1381498,99.961847,84.223579,?
+'census-chborn-weka.filters.unsupervised.attribute.Reorder-R1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,32',2,weka.classifiers.functions.SMO,'-C 1.0 -L 0.001 -P 1.0E-12 -N 0 -V -1 -W 1 -K \"weka.classifiers.functions.supportVector.PolyKernel -E 1.0 -C 250007\" -calibrator \"weka.classifiers.functions.Logistic -R 1.0E-8 -M -1 -num-decimal-places 4\"',-6585883636378691736,20161202.0924,4864,2621,2325,296,0,88.706601,11.293399,0,0.817782,0.226928,0.317351,107.625047,97.737713,4547.978844,5451.185796,-903.206951,1.735207,2.079811,-0.344604,472.503772,0.180276,27233.416003,0.998031,1014,0,0,1,1605,0.001969,2,1,0.998031,0.999015,0.998393,0.999998,0.999993,0.887066,0.047605,0.952395,0.112934,0.868065,0.887066,0.876657,0.841411,0.941084,0.841869,0.530815,0.887066,13.049,0.056,12.268746,0.052743,12268.746,52.743,160960,2541129,1381498,99.961847,84.070965,?
+'census-chborn-weka.filters.unsupervised.attribute.Reorder-R1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,32',3,weka.classifiers.functions.SMO,'-C 1.0 -L 0.001 -P 1.0E-12 -N 0 -V -1 -W 1 -K \"weka.classifiers.functions.supportVector.PolyKernel -E 1.0 -C 250007\" -calibrator \"weka.classifiers.functions.Logistic -R 1.0E-8 -M -1 -num-decimal-places 4\"',-6585883636378691736,20161202.0924,4865,2620,2328,292,0,88.854962,11.145038,0,0.821414,0.226989,0.317318,107.674875,97.768485,4538.650237,4384.973271,153.676966,1.732309,1.673654,0.058655,475.552888,0.181509,27384.512912,0.998033,1015,0,0,1,1603,0.001967,2,1,0.998033,0.999016,0.998394,0.999992,0.999981,0.88855,0.040776,0.959224,0.11145,0.873391,0.88855,0.879885,0.846986,0.942233,0.846939,0.541545,0.88855,12.015,0.06,11.145142,0.056798,11145.142,56.798,160960,2541646,1380981,100,84.427481,?
+'census-chborn-weka.filters.unsupervised.attribute.Reorder-R1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,32',4,weka.classifiers.functions.SMO,'-C 1.0 -L 0.001 -P 1.0E-12 -N 0 -V -1 -W 1 -K \"weka.classifiers.functions.supportVector.PolyKernel -E 1.0 -C 250007\" -calibrator \"weka.classifiers.functions.Logistic -R 1.0E-8 -M -1 -num-decimal-places 4\"',-6585883636378691736,20161202.0924,4864,2621,2337,284,0,89.164441,10.835559,0,0.825131,0.226767,0.316758,107.558797,97.575093,4544.992901,4371.094314,173.898587,1.734068,1.66772,0.066348,487.368256,0.185947,28080.230684,1,1017,0,0,1,1604,0,0,1,1,1,1,1,1,0.891644,0.048207,0.951793,0.108356,0.872659,0.891644,0.88062,0.844923,0.941186,0.842341,0.549498,0.891644,11.128,0.057,10.910823,0.057422,10910.823,57.422,160660,2541129,1381498,100,84.299886,?
+'census-chborn-weka.filters.unsupervised.attribute.Reorder-R1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,32',5,weka.classifiers.functions.SMO,'-C 1.0 -L 0.001 -P 1.0E-12 -N 0 -V -1 -W 1 -K \"weka.classifiers.functions.supportVector.PolyKernel -E 1.0 -C 250007\" -calibrator \"weka.classifiers.functions.Logistic -R 1.0E-8 -M -1 -num-decimal-places 4\"',-6585883636378691736,20161202.0924,4864,2621,2315,306,0,88.325067,11.674933,0,0.812408,0.227148,0.317558,107.739764,97.82159,4544.992901,4391.58013,153.412772,1.734068,1.675536,0.058532,473.064982,0.18049,27256.132641,0.999017,1016,0,0,1,1604,0.000983,1,1,0.999017,0.999508,0.999197,0.999991,0.999983,0.883251,0.046623,0.953377,0.116749,0.867021,0.883251,0.874608,0.837311,0.937628,0.839517,0.534999,0.883251,10.178,0.061,10.034867,0.060377,10034.867,60.377,161308,2541129,1381498,100,84.121836,?
