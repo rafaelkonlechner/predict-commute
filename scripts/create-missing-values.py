@@ -66,8 +66,6 @@ def main():
     if classAttribute[0] in attributesAffected:
         attributesAffected.remove(classAttribute[0])
 
-    logger.debug(attributeIndices)
-
     if fraction == 0:
         changedARFF = arffFile
     else:
@@ -95,11 +93,11 @@ def doReplaceMissingValuesWithClassMean(arff_file):
 
     result = arff_file.copy()
 
-    logger.debug("class attribute is %s" % classAttribute[0])
+    logger.info("class attribute is %s" % classAttribute[0])
 
     classValues = classAttribute[1]
 
-    logger.debug("class values: %s" % classValues)
+    logger.info("class values: %s" % classValues)
 
     attrValueCount = {}
     attrValueSum = {}
@@ -117,7 +115,6 @@ def doReplaceMissingValuesWithClassMean(arff_file):
 
 
     for row in arff_file['data']:
-        logger.debug("\n\nrow: %s" % row)
         rowClass = row[-1]
         for attrName, type in allAttributes:
             attr_index = index_of(attrName)
@@ -126,13 +123,7 @@ def doReplaceMissingValuesWithClassMean(arff_file):
                 if type == "NUMERIC":
                     attrValueSum[attrName][rowClass] += float(row[attr_index])
                 else:
-                    logger.debug("\n\nattribute: %s" % attrName)
-                    logger.debug("\n\nrow[%s]=%s" % (row[attr_index], attr_index))
-                    logger.debug("\n\nattrValueSum[attrName]=%s" % attrValueSum[attrName])
-                    logger.debug("\n\nattrValueSum[attrName][rowClass]=%s" % attrValueSum[attrName][rowClass])
-                    logger.debug("\n\nattrValueSum[attrName][rowClass][row[attr_index]]=%s" % attrValueSum[attrName][rowClass][row[attr_index]])
                     attrValueSum[attrName][rowClass][row[attr_index]] += 1
-                logger.debug("NEW VALUE: %s" % attrValueSum[attrName][rowClass])
 
     classMeans = {}
     for attrName, type in allAttributes:
@@ -146,19 +137,16 @@ def doReplaceMissingValuesWithClassMean(arff_file):
                     classMeans[attrName][classValue] = attrValueSum[attrName][classValue] / attrValueCount[attrName][classValue]
             else:
                 max = (None, -1)
-                logger.debug("attrValueSum[%s][%s]=%s" % (attrName, classValue, attrValueSum[attrName][classValue]))
                 for attrValue, count in attrValueSum[attrName][classValue].items():
                     if classValue != None and count > max[1]:
                         max = (attrValue, count)
 
                 classMeans[attrName][classValue] = max[0]
 
-    logger.info("class means: %s" % classMeans)
     for attrName, type in allAttributes:
         logger.debug("\n\nmeans of %s: %s" % (attrName, classMeans[attrName]))
 
     for row in result['data']:
-        logger.debug("\n\nrow: %s" % row)
         rowClass = row[-1]
         for attrName, type in allAttributes:
             attr_index = index_of(attrName)
@@ -191,8 +179,6 @@ def introduce_missing_values(arff_file):
 
         for dataRowIndex in randomIndices:
             logger.debug("Changed attr %d in row %d to missing" % (attrIndex, dataRowIndex))
-            logger.debug("data points: %d" % len(changedARFF['data']))
-            logger.debug("data rows: %d" % len(changedARFF['data'][attrIndex]))
             changedARFF['data'][dataRowIndex][attrIndex] = None
 
     return changedARFF
