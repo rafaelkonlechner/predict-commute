@@ -72,7 +72,6 @@ def main():
         changedARFF = arffFile
     else:
         changedARFF = introduce_missing_values(arffFile)
-    # changedARFF = introduce_missing_values(arffFile)
 
     if replaceMissingValuesWithClassMean:
         changedARFF = doReplaceMissingValuesWithClassMean(changedARFF)
@@ -96,14 +95,9 @@ def doReplaceMissingValuesWithClassMean(arff_file):
 
     result = arff_file.copy()
 
-    # attributeDeclarations = arff_file['attributes']
-
-    # classAttribute = allAttributes[-1]
-
     logger.debug("class attribute is %s" % classAttribute[0])
 
     classValues = classAttribute[1]
-    # classValues.append(None)
 
     logger.debug("class values: %s" % classValues)
 
@@ -121,8 +115,6 @@ def doReplaceMissingValuesWithClassMean(arff_file):
                 for pval in type:
                     attrValueSum[attrName][classValue][pval] = 0
 
-    # logger.debug("attr value count: %s" % attrValueCount)
-    # logger.debug("attr value sum: %s" % attrValueSum)
 
     for row in arff_file['data']:
         logger.debug("\n\nrow: %s" % row)
@@ -172,8 +164,6 @@ def doReplaceMissingValuesWithClassMean(arff_file):
             attr_index = index_of(attrName)
             if row[attr_index] == None:
                 row[attr_index] = classMeans[attrName][rowClass]
-
-    # logger.info("result: %s" % result)
 
     return result
 
