@@ -6,7 +6,7 @@ First step was, to transform the base ARFF file into CSV using OpenRefine. `-> 0
 
 Second step was, to converting all nominal attributes to numeric. We used OpenRefine for this. `-> 03_census-openrefine-numeric-values.csv` 
 
-Process the chborn attribute by simple text find/replace as follows:
+Process the chborn attribute as follows:
 1. Convert `No_children` to `0`
 2. Convert `1_child` to `1`
 3. Convert `2_children` to `2`
