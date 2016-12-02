@@ -16,5 +16,3 @@ Missing values are introduced by the `scripts/create-missing-values` script. For
 
 command: `./create-missing-values -s 1 -f FRACTION -a ATTRIBUTES`
 
-
-Replacements on the datasets are then performed by WEKA explorer, through applying the `ReplaceMissingValues` filter and saving the modifications.
