@@ -5,7 +5,7 @@ import sys
 import random
 import argparse
 import logging
-import arff
+import arff	# liac-arff, see: https://github.com/renatopp/liac-arff
 import codecs
 
 logger = None
